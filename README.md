@@ -15,6 +15,7 @@ and in a natural way.
 4. Add action by using `this.reducer<Payload>(action, callback)`.
     1. `callback` accepts parameter `state`, `setState` and `payload`.
     2. It must use `setState` to modify the state before return.
+5. If you want to use it in Angular, just annotate it with `@Injectable()` (https://angular.io/guide/dependency-injection).
 
 
 ## Simple Example
@@ -71,4 +72,18 @@ class CounterState extends NsrxState<CounterStateModel>{
         this.init();
     }
 }
+```
+
+
+## Use it with Redux tools
+
+```typescript
+NsrxState.attach(nsrxDevTools);
+```
+
+
+## Log all state changes to console
+
+```typescript
+NsrxState.attach(nsrxLogger);
 ```

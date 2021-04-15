@@ -2,7 +2,12 @@
   "name": "nsrx",
   "version": "1.0.1",
   "main": "dist/index.js",
-  "description": "",
+  "description": "Redux library in a not so Redux way",
+  "keywords": [
+    "redux",
+    "angular"
+  ],
+  "license": "MIT",
   "scripts": {
     "start": "npm-run-all --parallel build:watch start:web",
     "start:web": "live-server dist",
