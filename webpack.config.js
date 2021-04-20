@@ -9,7 +9,11 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        library: 'nsrx'
+        library: {
+            name: 'nxrs',
+            type: 'umd'
+        },
+        globalObject: 'this'
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
