@@ -1,6 +1,6 @@
 {
   "name": "nsrx",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/index.js",
   "description": "Redux library in a not so Redux way",
   "keywords": [
