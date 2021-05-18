@@ -1,5 +1,5 @@
-import { fromEvent, interval, Subscription, timer } from 'rxjs';
-import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs/operators';
+import { fromEvent, interval, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { NsrxState } from './nsrx';
 import { nsrxDevTools } from './nsrx.devtools';
 import { nsrxLogger } from './nsrx.logger';
@@ -13,8 +13,8 @@ interface CounterStateModel {
 }
 
 class CounterState extends NsrxState<CounterStateModel>{
-    readonly value$ = this.state$.pipe(map(s => s.value), distinctUntilChanged(), shareReplay(1));
-    readonly autoIncreaseIsEnabled$ = this.state$.pipe(map(s => s.autoIncreaseIsEnabled), distinctUntilChanged(), shareReplay(1));
+    readonly value$ = this.memoize(this.state$.pipe(map(s => s.value)));
+    readonly autoIncreaseIsEnabled$ = this.memoize(this.state$.pipe(map(s => s.autoIncreaseIsEnabled)));
 
     readonly init = this.reducer(
         `Init counter ${this.name}`,

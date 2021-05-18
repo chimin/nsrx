@@ -1,4 +1,4 @@
-import { ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 
 let rootState: Record<string, any>;
@@ -6,7 +6,7 @@ const store$ = new ReplaySubject<Record<string, any>>(1);
 const action$ = new Subject<{ action: string, payload: any, rootState: any }>();
 
 export class NsrxState<S> {
-    readonly state$ = store$.pipe(map(rs => rs?.[this.path]), distinctUntilChanged(), shareReplay(1));
+    readonly state$ = this.memoize(store$.pipe(map(rs => rs?.[this.path] as S)));
 
     static attach<T>(plugin: (
         store$: Subject<Record<string, any>>,
@@ -29,5 +29,9 @@ export class NsrxState<S> {
                 return newState;
             }, payload);
         };
+    }
+
+    protected memoize<T>(observable: Observable<T>) {
+        return observable.pipe(distinctUntilChanged(), shareReplay(1));
     }
 }
