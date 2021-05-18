@@ -22,7 +22,7 @@ and in a natural way.
 
 ```typescript
 class CounterState extends NsrxState<{ value: number }>  {
-    public readonly value$ = this.state$.pipe(map(s => s.value), distinctUntilChanged(), shareReplay(1));
+    public readonly value$ = this.memoize(this.state$.pipe(map(s => s.value)));
 
     public readonly increase = this.reducer<{ amount: number }>('Increase',
         (state, setState, payload) => setState({ value: (state?.value || 0) + payload.amount }));
@@ -40,8 +40,8 @@ counterState.increase({ amount: 10 });
 
 ```typescript
 class CounterState extends NsrxState<CounterStateModel>{
-    readonly value$ = this.state$.pipe(map(s => s.value), distinctUntilChanged(), shareReplay(1));
-    readonly autoIncreaseIsEnabled$ = this.state$.pipe(map(s => s.autoIncreaseIsEnabled), distinctUntilChanged(), shareReplay(1));
+    readonly value$ = this.memoize(this.state$.pipe(map(s => s.value)));
+    readonly autoIncreaseIsEnabled$ = this.memoize(this.state$.pipe(map(s => s.autoIncreaseIsEnabled)));
 
     readonly init = this.reducer(
         `Init counter ${this.name}`,
